@@ -1,25 +1,25 @@
 version: '3'
 
 services:
-  php:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./app:/var/www/html
+
+  web:
+    build: .
     ports:
-      - 8080:80
+      - "8080:80"
+    volumes:
+      - ./html:/var/www/html
     depends_on:
-      - database
-  database:
+      - db
+
+  db:
     image: postgres:latest
     restart: always
-    ports:
-      - 5432:5432
     environment:
-      POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
       POSTGRES_DB: mrp_db
+    ports:
+      - "5432:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./db-data/:/var/lib/postgresql/data/
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/db-data/:/var/lib/postgresql/data/
