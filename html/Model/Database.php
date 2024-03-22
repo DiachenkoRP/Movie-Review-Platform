@@ -37,6 +37,26 @@ class Database
             throw new Exception($e->getMessage());
         }
     }
+    public function delete($table, $data)
+    {
+        $query = "DELETE FROM $table WHERE ";
+
+        $conditions = array();
+        $params = array();
+        foreach ($data as $column => $value) {
+            $conditions[] = "$column = ?";
+            $params[] = $value;
+        }
+        
+        $query .= implode(" AND ", $conditions);
+    
+        try {
+            $stmt = $this->executeStatement($query, $params);
+            return $stmt->rowCount();
+        } catch (Exception $e) {
+            throw new Exception("Error executing DELETE query: " . $e->getMessage());
+        }
+    }
     private function executeStatement($query = "" , $params = []) {
         try {
             $stmt = $this->connection->prepare($query);
@@ -55,6 +75,24 @@ class Database
         } catch(PDOException $e) {
             throw new Exception($e->getMessage());
         }
+    }
+    
+    public function getPaginationData($table, $currentPage, $recordsPerPage)
+    {
+        $offset = ($currentPage - 1) * $recordsPerPage;
+
+        $query = "SELECT COUNT(*) AS total FROM $table";
+        $totalRecords = $this->select($query)[0]['total'];
+        $totalPages = ceil($totalRecords / $recordsPerPage);
+
+        $query = "SELECT * FROM $table LIMIT $recordsPerPage OFFSET $offset";
+        $data = $this->select($query);
+
+        return array(
+            'totalRecords' => $totalRecords,
+            'totalPages' => $totalPages,
+            'data' => $data
+        );
     }
 }
 

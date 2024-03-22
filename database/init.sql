@@ -18,9 +18,10 @@ CREATE TABLE movie_genre (
 );
 CREATE TABLE reviews (
     review_id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(user_id),
+    user_id INTEGER REFERENCES users(user_id) NOT NULL,
     movie_id INTEGER REFERENCES movies(movie_id),
     rating INTEGER CHECK (rating >= 1 AND rating <= 5),
     review_text TEXT,
-    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_user_movie UNIQUE (user_id, movie_id)
 );

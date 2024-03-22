@@ -7,7 +7,7 @@ class UserModel extends Database
     {
         return $this->select("SELECT * FROM users");
     }
-    public function addUser($username, $email, $password, $role = 'user')
+    public function addUser($username, $email, $password, $role)
     {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $data = [
@@ -18,5 +18,13 @@ class UserModel extends Database
         ];
 
         return $this->insert("users", $data);
+    }
+    public function deleteUser($user_id)
+    {
+        $data = [
+            'user_id' => $user_id
+        ];
+        $this->delete('reviews', $data);
+        return $this->delete("users", $data);
     }
 }
