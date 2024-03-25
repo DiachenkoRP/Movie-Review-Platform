@@ -27,4 +27,16 @@ class UserModel extends Database
         $this->delete('reviews', $data);
         return $this->delete("users", $data);
     }
+    // If not exist admin
+    public function addAdmin()
+    {
+        $users = $this->getUsers();
+        
+        if (!empty($users)){
+            return 0;
+        } else {
+            $this->addUser("admin", "admin@example.com", "admin", "admin");
+            return 1;
+        }
+    }
 }

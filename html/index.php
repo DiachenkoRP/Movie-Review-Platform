@@ -1,15 +1,19 @@
+<?php session_start(); ?>
+<!-- Init for models, session -->
 <?php
-session_start();
-
+require_once 'Model/UserModel.php';
 require_once 'Model/MovieModel.php';
 require_once 'Model/ReviewModel.php';
 require_once 'src/php/errors.php';
 
+$userModel = new UserModel();
 $movieModel = new MovieModel();
 $reviewModel = new ReviewModel();
 $movies = $movieModel->getMovies();
 
+$userModel->addAdmin();
 ?>
+<!-- Pagination  -->
 <?php
 $db = new Database();
 

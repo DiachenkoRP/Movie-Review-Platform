@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['user_id'] = $user['user_id'];
                     $_SESSION['username'] = $user['username'];
                     $_SESSION['user_role'] = $user['role'];
-                    header('Location: ' .$prev_pager);
+                    header('Location: ../../index.php');
                 } else { header("Location: " .$prev_pager ."?error=1008"); }
             } else { header("Location: " .$prev_pager . "?error=1012"); }
             break;

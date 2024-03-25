@@ -16,6 +16,7 @@ require_once 'src/php/errors.php';
             <h1>MRP</h1>
             <nav>
                 <a href="index.php">Home</a>
+                <a href="admin.php">Admin Page</a>
             </nav>
         </div>
     </header>
